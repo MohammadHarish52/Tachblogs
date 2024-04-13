@@ -1,10 +1,17 @@
 import User from "../model/user.js";
+import bcrypt from "bcrypt";
 
 export const signUpUser = async (req, res) => {
   try {
-    const userData = req.body; // Renamed from USer to userData for consistency
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
-    const newUser = new User(userData); // Used consistent naming for the model
+    const userData = {
+      username: req.body.username,
+      name: req.body.name,
+      password: hashedPassword,
+    };
+
+    const newUser = new User(userData);
 
     await newUser.save();
 

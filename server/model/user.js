@@ -18,5 +18,5 @@ const userSchema = mongoose.Schema({
   },
 });
 
-// validation of the schema will be above user
+// validation of the schema will be on the  user
 export default mongoose.model("user", userSchema);

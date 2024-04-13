@@ -7,7 +7,7 @@ import {
   styled,
 } from "@mui/material";
 import { useState } from "react";
-import { API } from "../../service/api";
+import { API } from "../../service/api.js";
 
 const LoginCard = styled(Card)`
   width: 350px;
@@ -33,16 +33,22 @@ const signUpInitialValue = {
 };
 
 const Login = () => {
-  const [login, setIsLogin] = useState(true);
+  const [login, setIsLogin] = useState("login");
 
   const [signup, setSignup] = useState(signUpInitialValue);
 
   const [error, setError] = useState("");
 
   const handleCreate = () => {
-    setIsLogin((e) => !e);
+    if (login === "login") {
+      setIsLogin("signup");
+    } else {
+      setIsLogin("login");
+    }
   };
+
   const SignUpUser = async () => {
+    setIsLogin("signup");
     let response = await API.userSignUp(signup);
     if (response.isSuccess) {
       setError("");
@@ -54,6 +60,7 @@ const Login = () => {
   };
 
   const onInputChange = (e) => {
+    // takes the values that are already present and updates them with the new values
     setSignup({ ...signup, [e.target.name]: e.target.value });
   };
   return (
@@ -63,7 +70,7 @@ const Login = () => {
         TachBlogs
       </Typography>
 
-      {login ? (
+      {login === "login" ? (
         <Box
           variant="outlined"
           sx={{ display: "flex", flexDirection: "column", gap: "12px" }}
@@ -75,6 +82,7 @@ const Login = () => {
             sx={{ marginTop: "12px" }}
           />
           <TextField id="outlined-basic" label="Password" variant="outlined" />
+          {error && <Error>{error}</Error>}
           <Button variant="contained" sx={{ marginTop: "12px" }}>
             Login
           </Button>
@@ -116,7 +124,7 @@ const Login = () => {
           <Button
             variant="contained"
             sx={{ marginTop: "12px" }}
-            onClick={handleCreate}
+            onClick={() => SignUpUser()}
           >
             Sign Up
           </Button>

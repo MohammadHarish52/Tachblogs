@@ -1,7 +1,7 @@
 export const API_NOTIFICATION_MESSAGES = {
   loading: {
     title: "loading....",
-    message: "Pleas wait while the data is fetched",
+    message: "Please wait while the data is fetched",
   },
   success: {
     title: "Success!",
